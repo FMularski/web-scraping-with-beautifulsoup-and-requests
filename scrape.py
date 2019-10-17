@@ -11,3 +11,11 @@ with open('index.html') as html_file:
 # print(soup.prettify())  # prints html code
 # print(soup.title) # prints <title> title text </title>
 # print(soup.title.text) # prints title text
+# print(soup.div) # prints the FIRST div tag
+# print(soup.find('div', class_='footer').text) # prints div with class footer
+
+article = soup.find('div', class_='article')    # getting outer div
+headline = article.h2.a.text    # getting inner h2 tag then a tag then text within
+summary = article.p.text    # getting inner p tag then text within
+print(headline + '\n' + summary)
+
