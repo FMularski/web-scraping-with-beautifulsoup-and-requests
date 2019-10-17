@@ -34,18 +34,21 @@ try:
         article_title_text = article.header.h2.a.text   # article title
         article_description = article.div.p.text    # article description
 
-        video_url = article.find('iframe', class_='youtube-player')['src']  # html markup attributes ['...']
-        video_yt_id = str(video_url).split('/')[4]  # splitting embedded url to get video id to make yt watch link
-        video_yt_id = video_yt_id.split('?')[0]
-        video_yt_link = f'https://youtube.com/watch?v={video_yt_id}'
+        try:    # try to avoid situation when in any article there is a tag missing, here one video link is missed
+            video_url = article.find('iframe', class_='youtube-player')['src']  # html markup attributes ['...']
+            video_yt_id = str(video_url).split('/')[4]  # splitting embedded url to get video id to make yt watch link
+            video_yt_id = video_yt_id.split('?')[0]
+            video_yt_link = f'https://youtube.com/watch?v={video_yt_id}'
+
+        except Exception:
+            video_yt_link = None    # if video not there, set yt link to None
 
         print(article_title_text)
         print(article_description)
         print(video_yt_link)
         print()
 
-
-except ConnectionError:
+except Exception:
     print('Connection failed.')
 
 
