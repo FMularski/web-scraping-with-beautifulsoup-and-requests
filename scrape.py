@@ -4,6 +4,7 @@
 
 from bs4 import BeautifulSoup
 import requests
+import csv
 
 # with open('index.html') as html_file:
     # soup = BeautifulSoup(html_file, 'lxml') #beautifulsoup object ( args: web page file and parser)
@@ -30,6 +31,10 @@ try:
     response = requests.get(url='https://coreyms.com/') # connecting
     soup = BeautifulSoup(response.text, 'lxml') # creating soup obj using raw text of web page
 
+    csv_file = open('cms_scrape.csv', 'w')  # opening coma separated values file
+    csv_writer = csv.writer(csv_file)   # creating csv writer
+    csv_writer.writerow(['headline', 'summary', 'video_link'])  # writing column name in csv file
+
     for article in soup.find_all('article'):    # scraping
         article_title_text = article.header.h2.a.text   # article title
         article_description = article.div.p.text    # article description
@@ -48,6 +53,9 @@ try:
         print(video_yt_link)
         print()
 
+        csv_writer.writerow([article_title_text, article_description, video_yt_link])   # adding values to csv file
+
+    csv_file.close()    # don't forget to close the file
 except Exception:
     print('Connection failed.')
 
