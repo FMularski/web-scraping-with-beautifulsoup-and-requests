@@ -14,8 +14,17 @@ with open('index.html') as html_file:
 # print(soup.div) # prints the FIRST div tag
 # print(soup.find('div', class_='footer').text) # prints div with class footer
 
-article = soup.find('div', class_='article')    # getting outer div
-headline = article.h2.a.text    # getting inner h2 tag then a tag then text within
-summary = article.p.text    # getting inner p tag then text within
-print(headline + '\n' + summary)
+# article = soup.find('div', class_='article')    # getting outer div
+# headline = article.h2.a.text    # getting inner h2 tag then a tag then text within
+# summary = article.p.text    # getting inner p tag then text within
+# print(headline + '\n' + summary)
+
+articles = soup.find_all('div', class_='article') # find_all returns a list of objects matching the arguments
+
+for article in articles:    # iterating over all articles
+    headline = article.h2.a.text
+    summary = article.p.text
+    print(headline + '\n' + summary + '\n' + '*' * 30)
+
+
 
